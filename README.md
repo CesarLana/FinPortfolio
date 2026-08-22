@@ -112,21 +112,4 @@ Este sistema foi construído embasado em modelagem financeira acadêmica estrita
 
 ---
 
-## 🚀 Como fazer Deploy para Nuvem (AWS)
-
-Se desejar disponibilizar a aplicação online:
-
-**Opção 1: Streamlit Community Cloud (Gratuito)**
-1. Conecte sua conta do GitHub em `share.streamlit.io`
-2. Selecione o repositório `FinPortfolio`
-3. Aponte o arquivo de entrada para `app/dashboard.py`
-
-**Opção 2: AWS App Runner (Profissional)**
-O repositório já contém o `Dockerfile` pronto.
-1. Suba o container no Amazon ECR.
-2. Vá ao AWS App Runner, crie um novo serviço apontando para o seu ECR.
-3. Exponha a porta `8501`. O App Runner cuidará do load balancing, SSL e auto-scaling automaticamente.
-
----
-
-> Desenvolvido com Python e IA por César Lana. Código aberto (MIT License). Não constitui recomendação de investimento.
+> Desenvolvido com Python e IA por César Lana. Código aberto (MIT License).
