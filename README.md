@@ -1,81 +1,75 @@
-# 📈 FinPortfolio — Análise e Otimização de Carteiras de Investimentos (Markowitz MPT)
+# 📈 FinPortfolio — Análise e Otimização de Carteiras de Investimentos
 
+[![Tests](https://github.com/CesarLana/FinPortfolio/actions/workflows/test.yml/badge.svg)](https://github.com/CesarLana/FinPortfolio/actions)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.25%2B-FF4B4B.svg)](https://streamlit.io/)
 [![Plotly](https://img.shields.io/badge/Plotly-5.15%2B-3F4F75.svg)](https://plotly.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-O **FinPortfolio** é uma plataforma quantitativa profissional de otimização de investimentos. O sistema combina a matemática clássica da **Teoria Moderna de Portfólios (MPT)** com análises de risco institucionais (usadas por tesourarias e assets), coleta automatizada de dados em tempo real e uma interface gráfica interativa.
-
----
-
-## 🚀 Funcionalidades Principais
-
-1. **Otimização Avançada de Portfólio**:
-   - **Mínima Volatilidade (GMV):** Portfólio com o menor risco histórico possível.
-   - **Máximo Índice de Sharpe:** Portfólio tangencial que maximiza a relação risco/retorno esperado.
-   - **Risk Parity (Paridade de Risco):** Estratégia de alocação onde cada ativo contribui igualmente para o risco total da carteira.
-   - **Fronteira Eficiente** com limites mínimos e máximos configuráveis por ativo.
-
-2. **Módulo Institucional & Risk Management**:
-   - **Stress Testing Histórico:** Simulação do impacto na carteira em crises reais (ex: 2008, COVID-19, Joesley Day).
-   - **Decomposição de Risco (Risk Contribution):** Marginal Risk e Component Risk por ativo.
-   - **Métricas de Cauda:** VaR 95/99% (Value at Risk) e CVaR (Expected Shortfall).
-   - **Performance Analítica:** Rolling Volatility, Rolling Sharpe, Tracking Error, Information Ratio, Beta e Alpha de Jensen.
-   - **Simulador de Choques:** Testes de cenário *What-If* customizados.
-
-3. **Coleta de Dados e Integração**:
-   - Integração com a API do Yahoo Finance (`yfinance`) para B3 (`.SA`) e ativos globais.
-   - Tratamento automático de fuso horário, dados nulos e feriados de mercado.
-
-4. **Backtest e Simulação Estocástica**:
-   - Geração de milhares de portfólios randômicos via Simulação de Monte Carlo.
-   - Backtest histórico buy-and-hold comparado a benchmarks (Ibovespa, S&P 500).
-
-5. **Dashboard Interativo (Streamlit + Plotly)**:
-   - UI moderna e responsiva (Dark Theme).
-   - Gráficos avançados: Fronteira eficiente interativa, Heatmap de Correlação, Donut charts, Waterfall de Stress Test e Radar de Alocação Multidimensional.
-   - Exportação de dados (pesos, matrizes, métricas) em formato CSV.
+Aplicação interativa em Python voltada para análise estatística de ativos e otimização de portfólios baseada na **Teoria Moderna de Carteiras (Markowitz MPT)**, métricas de risco e visualização de dados via dashboard em **Streamlit**.
 
 ---
 
-## 💻 Como Rodar Localmente (Docker)
+## 🎯 Funcionalidades
 
-O jeito mais fácil de rodar a aplicação sem se preocupar com dependências e versões de bibliotecas é utilizando o Docker e o `docker-compose`.
+1. **Otimização de Carteiras**:
+   - **Mínima Volatilidade (GMV):** Portfólio com a menor variância histórica calculada.
+   - **Máximo Índice de Sharpe:** Portfólio tangencial que maximiza a relação retorno esperado / risco.
+   - **Risk Parity (Paridade de Risco):** Alocação buscando contribuição igualitária de risco por ativo via otimizador SLSQP (Scipy).
+   - **Fronteira Eficiente:** Curva teórica de risco-retorno com restrições de pesos configuráveis.
+
+2. **Gestão de Risco & Análise Estatística**:
+   - **Métricas de Cauda:** Value at Risk (VaR Histórico e Paramétrico a 95% e 99%) e Conditional VaR (CVaR / Expected Shortfall).
+   - **Métricas de Performance:** Volatilidade anualizada, Sharpe Ratio, Tracking Error, Beta e Alpha de Jensen.
+   - **Decomposição de Risco:** Marginal Risk Contribution e Component Risk por ativo.
+   - **Cenários Históricos:** Avaliação do impacto da carteira em períodos de estresse passados (ex: Crise de 2008, COVID-19).
+
+3. **Coleta de Dados**:
+   - Obtenção de séries temporais de preços de fechamento ajustados via biblioteca `yfinance` para ações da B3 (`.SA`) e índices globais.
+   - Tratamento de retornos logarítmicos, alinhamento de datas e tratamento de feriados.
+
+4. **Simulação de Carteiras**:
+   - Geração de combinações de pesos aleatórios para mapeamento visual da dispersão risco-retorno e contraste com a Fronteira Eficiente.
+
+5. **Interface Gráfica (Streamlit + Plotly)**:
+   - Dashboard responsivo com gráficos dinâmicos de fronteira de Sharpe, correlação e distribuição de pesos.
+
+---
+
+## ⚠️ Premissas e Limitações do Modelo
+
+- **Sensibilidade a Erros de Estimação:** O modelo clássico de Markowitz utiliza dados históricos passados para estimar retornos esperados e matriz de covariância. Retornos passados não garantem retornos futuros e a matriz de covariância pode sofrer instabilidade em regimes de mercado atípicos.
+- **Distribuição de Retornos:** Os cálculos paramétricos assumem distribuição aproximadamente normal dos retornos, embora caudas pesadas (fat tails) sejam comuns no mercado financeiro. Por isso, métricas não-paramétricas como o VaR Histórico e CVaR também são disponibilizadas.
+- **Fonte de Dados:** Os dados de cotações são extraídos do Yahoo Finance via biblioteca `yfinance`, uma fonte pública de fins educacionais/pessoais sujeita a delay e inconsistências de cotações intradiárias.
+
+---
+
+## 💻 Como Executar Localmente
+
+### Opção 1: Via Docker (Recomendado)
 
 ```bash
-# 1. Clone o repositório
 git clone https://github.com/CesarLana/FinPortfolio.git
 cd FinPortfolio
 
-# 2. Suba o container (Isso instalará as dependências e iniciará o Streamlit)
-docker-compose up --build -d
-
-# 3. Acesse a aplicação no seu navegador:
-# http://localhost:8501
+docker compose up --build -d
 ```
+Acesse no navegador: `http://localhost:8501`
 
-## 🔧 Como Rodar Localmente (Python Nativo)
-
-Caso não queira usar Docker, você pode rodar a aplicação em um ambiente virtual local:
+### Opção 2: Com Ambiente Virtual Python
 
 ```bash
-# 1. Clone o repositório
 git clone https://github.com/CesarLana/FinPortfolio.git
 cd FinPortfolio
 
-# 2. Crie e ative um ambiente virtual (Opcional, mas recomendado)
 python -m venv venv
-# No Windows:
+# Windows:
 venv\Scripts\activate
-# No Mac/Linux:
+# Linux/macOS:
 source venv/bin/activate
 
-# 3. Instale as dependências
 pip install -r requirements.txt
-
-# 4. Rode a aplicação Streamlit
 streamlit run app/dashboard.py
 ```
 
@@ -83,33 +77,16 @@ streamlit run app/dashboard.py
 
 ## 🧪 Testes Automatizados
 
-O sistema conta com uma extensa suíte de testes unitários para garantir a integridade dos cálculos financeiros de risco e otimização.
+O projeto conta com suíte de testes unitários validando as rotinas matemáticas de otimização, cálculo de covariância e métricas de risco:
 
 ```bash
-# Para rodar todos os testes com Pytest:
-python -m pytest tests/ -v
+pytest tests/ -v
 ```
 
----
-
-## 📐 Fundamentação Matemática e Modelagem
-
-Este sistema foi construído embasado em modelagem financeira acadêmica estrita:
-
-1. **Retorno do Portfólio ($E[R_p]$)**
-   $E[R_p] = \sum_{i=1}^{n} w_i E[R_i]$
-
-2. **Volatilidade do Portfólio ($\sigma_p$)**
-   $\sigma_p = \sqrt{\mathbf{w}^T \mathbf{\Sigma} \mathbf{w}}$
-   Sendo $\mathbf{\Sigma}$ a matriz de covariância anualizada e $\mathbf{w}$ o vetor de pesos.
-
-3. **Índice de Sharpe**
-   $Sharpe = \frac{E[R_p] - R_f}{\sigma_p}$
-
-4. **Risk Parity (Igualdade de Contribuição de Risco)**
-   A alocação busca igualar a Contribuição de Risco (CRC) de todos os $N$ ativos. O algoritmo SLSQP minimiza a seguinte função objetivo:
-   $\min \sum_{i=1}^{n} \left( \frac{w_i (\mathbf{\Sigma} \mathbf{w})_i}{\sigma_p} - \frac{\sigma_p}{n} \right)^2$
+Uma esteira de **CI (Continuous Integration) via GitHub Actions** executa os testes automaticamente a cada commit ou pull request no branch `main`.
 
 ---
 
-> Desenvolvido com Python e IA por César Lana. Código aberto (MIT License).
+## 📄 Licença
+
+Distribuído sob a licença MIT. Veja [LICENSE](LICENSE) para mais informações.
