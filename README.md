@@ -85,6 +85,24 @@ pytest tests/ -v
 
 Uma esteira de **CI (Continuous Integration) via GitHub Actions** executa os testes automaticamente a cada commit ou pull request no branch `main`.
 
+## 📐 Entendendo os Conceitos Matemáticos
+
+- **Índice de Sharpe:** Mede a eficiência da carteira comparando o retorno excedente (acima da taxa livre de risco) com a volatilidade total:
+  $$\text{Sharpe} = \frac{R_p - R_f}{\sigma_p}$$
+  Quanto maior o Sharpe, mais retorno a carteira gera para cada unidade de risco assumida.
+- **Simulação de Carteiras (Pesos Aleatórios):** Gera combinações aleatórias de pesos entre os ativos para mapear visualmente a nuvem de risco-retorno e contrastar com a **Fronteira Eficiente de Markowitz** (o conjunto de carteiras que entregam o melhor retorno possível para um determinado nível de risco).
+
+---
+
+## 🤖 Metodologia de Desenvolvimento & Uso de IA
+
+Este projeto foi construído combinando engenharia de software com **apoio de ferramentas de Inteligência Artificial generativa como copiloto técnico**:
+
+- **Arquitetura & Engenharia (Feito por mim):** Concepção do fluxo da aplicação, seleção de bibliotecas (`Streamlit`, `Scipy`, `Pandas`, `Plotly`), containerização em Docker, configuração da esteira de CI com GitHub Actions e validação dos resultados.
+- **Suporte de IA (Copiloto):** Auxílio na geração de boilerplates matemáticos (matriz de covariância e restrições do otimizador SLSQP), apoio na escrita da suíte de testes unitários (`pytest`) e refinamento visual dos gráficos interativos.
+
+> *Essa transparência garante que cada função, fórmula e teste da aplicação foi revisado, testado e compreendido pelo autor.*
+
 ---
 
 ## 📄 Licença
